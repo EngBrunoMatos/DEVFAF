@@ -1,0 +1,519 @@
+{% extends "layout.html" %}
+{% load custom_tags %}
+{% block main %}
+<main class="container-fluid">
+    <div class="row card_acompanhamento" style="justify-content: space-around;">
+        <div class="card center" style="width: 90%;">
+            <div>
+            <h5 class="card-title">Dados Gerais do Instrumento</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="row" style="width: 100%;">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item"><p class="fw-light">Nº da Proposta</p><p class="fw-bolder text-uppercase">{{object.nr_proposta}}</p> </li>
+                              <li class="list-group-item"><p class="fw-light">Esfera Administrativa</p> <p class="fw-bolder text-uppercase">{{object.FK_esfera.esfera}}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Saldo em Conta</p> <p class="fw-bolder text-uppercase">{% if lista_saldos.vl_saldo_conta %}{{lista_saldos.vl_saldo_conta|FormataValor}}{% else %}---{% endif %}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Data Ultima OB</p> <p class="fw-bolder text-uppercase">{% if lista_ob.dt_ob_siafi %}{{lista_ob.dt_ob_siafi}}{% else %}---{% endif %}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Nº da Portaria de Habilitação</p> <p class="fw-bolder text-uppercase">{{object.nr_portaria_habilitacao}}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Valor da Proposta</p> <p class="fw-bolder text-uppercase">{{object.valor_proposta|FormataValor}}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Risco Calculado</p> <p class="fw-bolder text-uppercase">{{object.risco_calculado}}</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row" style="width: 100%;">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item"><p class="fw-light">CNPJ Recebedor</p> <p class="fw-bolder text-uppercase">{{object.FK_recebedor.cnpj_recebedor|cnpj}}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Município</p><p class="fw-bolder text-uppercase">{{object.FK_municipio.municipio}}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Agência</p> <p class="fw-bolder text-uppercase">{% if lista_saldos.agencia_prop %}{{lista_saldos.agencia_prop}}{% else %}---{% endif %}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Valor pago OB</p> <p class="fw-bolder text-uppercase">{% if lista_ob.vl_pago_ob_prop %}{{lista_ob.vl_pago_ob_prop|FormataValor}}{% else %}---{% endif %}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Ano da Portaria de Habilitação</p><p class="fw-bolder text-uppercase">{{object.ano_portaria_habilitacao}}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Valor Transferido</p><p class="fw-bolder text-uppercase">{{object.valor_transferido|FormataValor}}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Área Finalística</p><p class="fw-bolder text-uppercase">{{object.FK_area_finalistica.area_finalistica}}</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row" style="width: 100%;">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item"><p class="fw-light">Tipo</p> <p class="fw-bolder text-uppercase">{% if object.FK_tipo_objeto.tipo_objeto %}{{object.FK_tipo_objeto.tipo_objeto}}{% else %}N/A{% endif %}</p></li>
+                              <li class="list-group-item"><p class="fw-light">UF</p><p class="fw-bolder text-uppercase">{{object.FK_uf.uf}}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Conta</p> <p class="fw-bolder text-uppercase">{% if lista_saldos.conta_prop %}{{lista_saldos.conta_prop}}{% else %}---{% endif %}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Objeto OB</p> <p class="fw-bolder text-uppercase">{% if lista_ob.objeto %}{{lista_ob.objeto}}{% else %}---{% endif %}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Data da Portaria de Habilitação</p><p class="fw-bolder text-uppercase">{{object.data_portaria_habilitacao}}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Valor Não Transferido</p><p class="fw-bolder text-uppercase">{{object.valor_nao_transferido|FormataValor}}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Plano de ação</p><p class="fw-bolder text-uppercase">{{object.plano}}</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row" style="width: 100%;">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item"><p class="fw-light">Razão Social</p> <p class="fw-bolder text-uppercase">{{object.FK_recebedor.razao_social_recebedor}}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Código do Município</p><p class="fw-bolder text-uppercase">{{object.FK_municipio.codigo_municipio}}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Data do Ultimo Pagamento</p> <p class="fw-bolder text-uppercase">{% if lista_saldos.dt_ult_pgto_prop %}{{lista_saldos.dt_ult_pgto_prop}}{% else %}---{% endif %}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Situação OB</p> <p class="fw-bolder text-uppercase">{% if lista_ob.ds_situacao_proposta %}{{lista_ob.ds_situacao_proposta}}{% else %}---{% endif %}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Tipo de Transferência</p><p class="fw-bolder text-uppercase">{{object.tipo_de_transferencia}}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Analista Responsável</p><p class="fw-bolder text-uppercase">
+                                  {{request.user.username}}{{ qs_analise.FK_User.username }}</p></li>
+                              <li class="list-group-item"><p class="fw-light">Portaria de Cancelamento</p><p class="fw-bolder text-uppercase">{% if object.PORTARIA_CANCELAMENTO %}Prt. Nº {{object.PORTARIA_CANCELAMENTO}} - {{object.DT_PORTARIA_CANCELAMENTO}}{% else %}---{% endif %}</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                  </div>
+            </div>
+            <br>
+            <hr>
+            <div class="div-linha">
+                <h5 class="card-title">Informações de devolução de recursos</h5>
+            </div>
+            <hr>
+{% if request.user == qs_analise.FK_User %}
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="row" style="width: 100%;">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><p class="fw-light">Situação da Análise</p> <p class="fw-bolder text-uppercase">{% if last_lista_acomp.status_situacao %}{{last_lista_acomp.get_status_situacao_display}}{% else %}---{% endif %}</p></li>
+                                <li class="list-group-item"><p class="fw-light">Valor da Correção Monetária</p><p class="fw-bolder text-uppercase">{% if last_lista_valores.vl_correcao %}{{last_lista_valores.vl_correcao|FormataValorINT}}{% else %}---{% endif %}</p></li>
+                                <li class="list-group-item"><p class="fw-light">Valor a Restituir</p> <p class="fw-bolder text-uppercase">{% if last_lista_valores.vl_original %}{{total_A_restituir|FormataValorINT}}{% else %}---{% endif %}</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row" style="width: 100%;">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><p class="fw-light">Tipo de Irregularidade</p><p class="fw-bolder text-uppercase">{% if last_lista_acomp.tipo_irregularidade %}{{last_lista_acomp.get_tipo_irregularidade_display}}{% else %}---{% endif %}</p></li>
+                                <li class="list-group-item"><p class="fw-light">Valor Total do Débito</p> <p class="fw-bolder text-uppercase">{% if last_lista_valores.vl_original %}{{total_debito|FormataValorINT}}{% else %}---{% endif %}</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row" style="width: 100%;">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><p class="fw-light">Proposta Auditada</p> <p class="fw-bolder text-uppercase">{% if last_lista_acomp.analise_auditada %}{{last_lista_acomp.get_analise_auditada_display}}{% else %}---{% endif %}</p></li>
+                                <li class="list-group-item"><p class="fw-light">Data de Apuração do Débito</p> <p class="fw-bolder text-uppercase">{% if last_lista_valores.dt_apuracao %}{{last_lista_valores.dt_apuracao|date:"d/m/y"}}{% else %}---{% endif %}</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row" style="width: 100%;">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><p class="fw-light">Valor Original do Débito</p><p class="fw-bolder text-uppercase">{% if last_lista_valores.vl_original %}{{last_lista_valores.vl_original|FormataValorINT}}{% else %}---{% endif %}</p></li>
+                                <li class="list-group-item"><p class="fw-light">Valor Total Restituído</p> <p class="fw-bolder text-uppercase">{% if last_lista_restituicao.vl_restituido %}{{total_restituido|FormataValorINT}}{% else %}---{% endif %}</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Abas - Históricos -->
+    <div class="row card_acompanhamento" style="justify-content: space-around;">
+    <div class="card center" style="width: 90%;">
+        <div class="card-body">
+            <div class="nav nav-tabs">
+              <button id="bt_tab1" onclick="bt_tab(1)" class="nav-link btn-sm active">Ficha de Acompanhamento</button>
+              <button id="bt_tab2" onclick="bt_tab(2)" class="nav-link btn-sm">Ficha de Informações de Débitos</button>
+              <button id="bt_tab3" onclick="bt_tab(3)" class="nav-link btn-sm">Fatos Geradores</button>
+              <button id="bt_tab4" onclick="bt_tab(4)" class="nav-link btn-sm">Edital de Notificação</button>
+              <button id="bt_tab5" onclick="bt_tab(5)" class="nav-link btn-sm">Registro de Notificações</button>
+              <button id="bt_tab6" onclick="bt_tab(6)" class="nav-link btn-sm">Histórico de restituições</button>
+            </div>
+            <div id="tab1">
+              <div class="card-header">
+                <div class="div-linha align-middle">
+                  <div>Acompanhamento da análise</div>
+                  <button onclick="window.location.href='{%url 'reg_acompanhamento' object.nr_proposta %}'" type="button" class="btn btn-light" title="Editar Ficha de Acompanhamento" > Editar/Adicionar <i class="bi bi-pencil-square"></i></button>
+                </div>
+              </div>
+                <div class="table-responsive">
+                  <table class="table table-sm align-middle table-bordered table-striped table-hover">
+                      <span class="align-middle">
+                      <thead class="thead-blue">
+                        <tr>
+                          <th scope="col">Possui Portaria de Cancelamento?</th>
+                          <th scope="col">Situação da Análise</th>
+                          <th scope="col">Tipo de Irregularidade</th>
+                          <th scope="col">Situação Após Análise</th>
+                          <th scope="col">Proposta Auditada?</th>
+                          <th scope="col">Entidade Auditoria</th>
+                          <th scope="col">NUP Auditoria</th>
+                          <th scope="col">Motivo de Ressarcimento</th>
+                          <th scope="col">Data do Registro</th>
+                          <th scope="col">Usuário</th>
+                          <th scope="col">Apagar</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for object in lista_acompanhamento %}
+                        {% if object.cancelar_registro == 0 %}
+                        {% if object == last_lista_acomp %}
+                        <tr class="text-muted-2">{% else %}<tr>{% endif %}
+                            <td>{% if object.prt_cancelamento %}{{ object.get_prt_cancelamento_display }}{% else %}---{% endif %}</td>
+                            <td>{% if object.status_situacao %}{{ object.get_status_situacao_display }}{% else %}---{% endif %}</td>
+                            <td>{% if object.tipo_irregularidade %}{{ object.get_tipo_irregularidade_display }}{% else %}---{% endif %}</td>
+                            <td>{% if object.status_instrucao %}{{ object.get_status_instrucao_display }}{% else %}---{% endif %}</td>
+                            <td>{% if object.analise_auditada %}{{ object.get_analise_auditada_display }}{% else %}---{% endif %}</td>
+                            <td>{% if object.entidade_autora %}{{ object.entidade_autora }}{% else %}---{% endif %}</td>
+                            <td>{% if object.nup_rel_auditoria %}{{ object.nup_rel_auditoria }}{% else %}---{% endif %}</td>
+                            <td>{% if object.motivo_analise %}{{ object.motivo_analise }}{% else %}---{% endif %}</td>
+                            <td>{% if object.data_registro %}{{ object.data_registro|date:"d/m/y" }}{% else %}---{% endif %}</td>
+                            <td>{% if object.ds_usuario %}{{ object.ds_usuario }}{% else %}---{% endif %}</td>
+                            <td>
+                                <form method="post">{% csrf_token %}
+                                    <button type="submit" class="btn btn-bluelgt" name="lista_acompanhamento" value="{{ object.id }}"> Apagar </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr class="text-muted">
+                            <td>n/d</td>
+                            <td>{% if object.status_situacao %}{{ object.get_status_situacao_display }}{% else %}---{% endif %}</td>
+                            <td>{% if object.tipo_irregularidade %}{{ object.get_tipo_irregularidade_display }}{% else %}---{% endif %}</td>
+                            <td>{% if object.status_instrucao %}{{ object.get_status_instrucao_display }}{% else %}---{% endif %}</td>
+                            <td>{% if object.analise_auditada %}{{ object.get_analise_auditada_display }}{% else %}---{% endif %}</td>
+                            <td>{% if object.entidade_autora %}{{ object.entidade_autora }}{% else %}---{% endif %}</td>
+                            <td>{% if object.nup_rel_auditoria %}{{ object.nup_rel_auditoria }}{% else %}---{% endif %}</td>
+                            <td>{% if object.motivo_analise %}{{ object.motivo_analise }}{% else %}---{% endif %}</td>
+                            <td>{% if object.data_registro %}{{ object.data_registro|date:"d/m/y" }}{% else %}---{% endif %}</td>
+                            <td>{% if object.ds_usuario %}{{ object.ds_usuario }}{% else %}---{% endif %}</td>
+                            <td>Apagado por:<br>{{ object.registro_cancelamento}}</td>
+                        </tr>
+                        {% endif %}
+                        {% empty %}
+                        <tr>
+                            <td colspan="15">Nenhuma registro encontrado</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                      </span>
+                    </table>
+
+                </div>
+            </div>
+            <div id="tab2">
+              <div class="card-header">
+                <div class="div-linha align-middle">
+                  <div>Informações de débitos</div>
+                  <button onclick="window.location.href='{%url 'reg_valores' object.nr_proposta %}'" type="button" class="btn btn-light" title="Adicionar Histórico de Valores" > Adicionar <i class="bi bi-pencil-square"></i></button>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-sm align-middle table-bordered table-striped table-hover">
+                    <span class="align-middle">
+                    <thead class="thead-blue">
+                      <tr>
+                        <th scope="col">Valor Original do Débito</th>
+                        <th scope="col">Valor de Correção do Débito</th>
+                        <th scope="col">Data de Apuração do Débito</th>
+                        <th scope="col">Data do Registro</th>
+                        <th scope="col">Usuário</th>
+                        <th scope="col">Apagar</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for object in lista_valores %}
+                      {% if object.cancelar_registro == 0 %}
+                        {% if object == last_lista_valores %}
+                        <tr class="text-muted-2">{% else %}<tr>{% endif %}
+                          <td>{{ object.vl_original|FormataValorINT }}</td>
+                            <td>{{ object.vl_correcao|FormataValorINT }}</td>
+                            <td>{{ object.dt_apuracao|date:"d/m/y" }}</td>
+                            <td>{{ object.data_registro|date:"d/m/y" }}</td>
+                            <td>{{ object.ds_usuario }}</td>
+                            <td>
+                                <form method="post">{% csrf_token %}
+                                    <button type="submit" class="btn btn-bluelgt" name="lista_valores" value="{{ object.nr_proposta }}"> Apagar </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+
+                        <tr class="text-muted">
+                            <td>{{ object.vl_original|FormataValorINT }}</td>
+                            <td>{{ object.vl_correcao_dig|FormataValorINT }}</td>
+                            <td>{{ object.vl_restituido|FormataValorINT }}</td>
+                            <td>{{ object.data_registro|date:"d/m/y" }}</td>
+                            <td>{{ object.ds_usuario }}</td>
+                            <td>Apagado por:<br>{{ object.registro_cancelamento}}</td>
+                        </tr>
+                        {% endif %}
+                        {% empty %}
+                        <tr>
+                            <td colspan="15">Nenhuma registro encontrado</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </span>
+                  </table>
+
+              </div>
+            </div>
+            <div id="tab3">
+              <div class="card-header">
+                <div class="div-linha align-middle">
+                  <div> Fatos Geradores </div>
+                  <button onclick="window.location.href='{%url 'reg_fatos_geradores' object.nr_proposta %}'" type="button" class="btn btn-light" title="Adicionar Fatos Geradores" > Adicionar <i class="bi bi-pencil-square"></i></button>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-sm align-middle table-bordered table-striped table-hover">
+                    <span class="align-middle">
+                    <thead class="thead-blue">
+                      <tr>
+                        <th scope="col">Tipo de Irregularidade</th>
+                        <th scope="col">Responsabilidade</th>
+                        <th scope="col">Valor do Dano</th>
+                        <th scope="col">Data do Fato Gerador</th>
+                        <th scope="col">CPF/CNPJ</th>
+                        <th scope="col">Razão Social</th>
+                        <th scope="col">Data do Registro</th>
+                        <th scope="col">Usuário</th>
+                        <th scope="col">Apagar</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for object in lista_fatos_geradores %}
+                      {% if object.cancelar_registro == 0 %}
+                        {% if object == last_lista_fatos_geradores %}
+                        <tr class="text-muted-2">{% else %}<tr>{% endif %}
+                            <td>{{ object.tp_irregularidade }}</td>
+                            <td>{{ object.get_tp_responsabilidade_display }}</td>
+                            <td>{{ object.vl_dano|FormataValorINT }}</td>
+                            <td>{{ object.dt_fato_gerador|date:"d/m/y" }}</td>
+                            <td>{{ object.nr_cpf_cnpj }}</td>
+                            <td>{{ object.ds_razao_social }}</td>
+                            <td>{{ object.data_registro|date:"d/m/y" }}</td>
+                            <td>{{ object.ds_usuario }}</td>
+                            <td>
+                                <form method="post">{% csrf_token %}
+                                    <button type="submit" class="btn btn-bluelgt" name="lista_fatos" value="{{ object.nr_proposta }}"> Apagar </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr class="text-muted">
+                            <td>{{ object.tp_irregularidade }}</td>
+                            <td>{{ object.get_tp_responsabilidade_display }}</td>
+                            <td>{{ object.vl_dano|FormataValorINT }}</td>
+                            <td>{{ object.dt_fato_gerador|date:"d/m/y" }}</td>
+                            <td>{{ object.nr_cpf_cnpj }}</td>
+                            <td>{{ object.ds_razao_social }}</td>
+                            <td>{{ object.data_registro|date:"d/m/y" }}</td>
+                            <td>{{ object.ds_usuario }}</td>
+                            <td>Apagado por:<br>{{ object.registro_cancelamento}}</td>
+                        </tr>
+                        {% endif %}
+                        {% empty %}
+                        <tr>
+                            <td colspan="15">Nenhuma registro encontrado</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </span>
+                  </table>
+
+              </div>
+            </div>
+            <div id="tab4">
+              <div class="card-header">
+                <div class="div-linha align-middle">
+                  <div> Edital de Notificação </div>
+                  <button onclick="window.location.href='{%url 'reg_edital_notif' object.nr_proposta %}'" type="button" class="btn btn-light" title="Adicionar Edital de Notificação" > Adicionar <i class="bi bi-pencil-square"></i></button>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-sm align-middle table-bordered table-striped table-hover">
+                    <span class="align-middle">
+                    <thead class="thead-blue">
+                      <tr>
+                        <th scope="col">Nº do Edital</th>
+                        <th scope="col">Data do Edital</th>
+                        <th scope="col">Data da Publicação</th>
+                        <th scope="col">CPF/CNPJ</th>
+                        <th scope="col">Razão Social</th>
+                        <th scope="col">Data do Registro</th>
+                        <th scope="col">Usuário</th>
+                        <th scope="col">Apagar</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for object in lista_reg_edital_notif %}
+                      {% if object.cancelar_registro == 0 %}
+                        <tr>
+                            <td>{{ object.nr_edital }}</td>
+                            <td>{{ object.dt_edital|date:"d/m/y" }}</td>
+                            <td>{{ object.dt_publicacao|date:"d/m/y" }}</td>
+                            <td>{{ object.nr_cpf_cnpj }}</td>
+                            <td>{{ object.ds_razao_social }}</td>
+                            <td>{{ object.data_registro|date:"d/m/y" }}</td>
+                            <td>{{ object.ds_usuario }}</td>
+                            <td>
+                                <form method="post">{% csrf_token %}
+                                    <button type="submit" class="btn btn-bluelgt" name="lista_edital" value="{{ object.nr_proposta }}"> Apagar </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr class="text-muted">
+                            <td>{{ object.nr_edital }}</td>
+                            <td>{{ object.dt_edital|date:"d/m/y" }}</td>
+                            <td>{{ object.dt_publicacao|date:"d/m/y" }}</td>
+                            <td>{{ object.nr_cpf_cnpj }}</td>
+                            <td>{{ object.ds_razao_social }}</td>
+                            <td>{{ object.data_registro|date:"d/m/y" }}</td>
+                            <td>{{ object.ds_usuario }}</td>
+                            <td>Apagado por:<br>{{ object.registro_cancelamento}}</td>
+                        </tr>
+                        {% endif %}
+                        {% empty %}
+                        <tr>
+                            <td colspan="15">Nenhuma registro encontrado</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </span>
+                </table>
+              </div>
+            </div>
+            <div id="tab5">
+              <div class="card-header">
+                <div class="div-linha align-middle">
+                  <div> Registro de Notificações </div>
+                  <button onclick="window.location.href='{%url 'reg_notificacao' object.nr_proposta %}'" type="button" class="btn btn-light" title="Adicionar Registro de Notificações" > Adicionar <i class="bi bi-pencil-square"></i></button>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-sm align-middle table-bordered table-striped table-hover">
+                    <span class="align-middle">
+                    <thead class="thead-blue">
+                      <tr>
+                        <th scope="col">NUP Ofício</th>
+                        <th scope="col">Data da AR</th>
+                        <th scope="col">Data Limite da Notificação</th>
+                        <th scope="col">CPF/CNPJ</th>
+                        <th scope="col">Razão Social</th>
+                        <th scope="col">Situação da Notificação</th>
+                        <th scope="col">Responsável</th>
+                        <th scope="col">Data do Registro</th>
+                        <th scope="col">Usuário</th>
+                        <th scope="col">Apagar</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for object in lista_reg_notificacao %}
+                      {% if object.cancelar_registro == 0 %}
+                        <tr>
+                            <td>{{ object.nr_nup_oficio }}</td>
+                            <td>{{ object.dt_ar|date:"d/m/y" }}</td>
+                            <td>{{ object.dt_limite_notificacao|date:"d/m/y" }}</td>
+                            <td>{{ object.nr_cpf_cnpj }}</td>
+                            <td>{{ object.ds_razao_social }}</td>
+                            <td>{{ object.get_notificacao_display }}</td>
+                            <td>{{ object.get_resp_irregularidade_display }}</td>
+                            <td>{{ object.data_registro|date:"d/m/y" }}</td>
+                            <td>{{ object.ds_usuario }}</td>
+                            <td>
+                                <form method="post">{% csrf_token %}
+                                    <button type="submit" class="btn btn-bluelgt" name="lista_notificacao" value="{{ object.nr_proposta }}"> Apagar </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr class="text-muted">
+                            <td>{{ object.nr_nup_oficio }}</td>
+                            <td>{{ object.dt_ar|date:"d/m/y" }}</td>
+                            <td>{{ object.dt_limite_notificacao|date:"d/m/y" }}</td>
+                            <td>{{ object.nr_cpf_cnpj }}</td>
+                            <td>{{ object.ds_razao_social }}</td>
+                            <td>{{ object.get_notificacao_display }}</td>
+                            <td>{{ object.get_resp_irregularidade_display }}</td>
+                            <td>{{ object.data_registro|date:"d/m/y" }}</td>
+                            <td>{{ object.ds_usuario }}</td>
+                            <td>Apagado por:<br>{{ object.registro_cancelamento}}</td>
+                        </tr>
+                        {% endif %}
+                        {% empty %}
+                        <tr>
+                            <td colspan="15">Nenhuma registro encontrado</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </span>
+                </table>
+              </div>
+            </div>
+            <div id="tab6">
+              <div class="card-header">
+                <div class="div-linha align-middle">
+                  <div> Histórico de restituições </div>
+                  <button onclick="window.location.href='{%url 'reg_restituicao' object.nr_proposta %}'" type="button" class="btn btn-light" title="Adicionar Registro de Notificações" > Adicionar <i class="bi bi-pencil-square"></i></button>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-sm align-middle table-bordered table-striped table-hover">
+                    <span class="align-middle">
+                        <thead class="thead-blue">
+                          <tr>
+                            <th scope="col">Nº GRU</th>
+                            <th scope="col">Valor Restituído</th>
+                            <th scope="col">Data da Restituição</th>
+                            <th scope="col">CPF/CNPJ</th>
+                            <th scope="col">Razão Social</th>
+                            <th scope="col">Data do Registro</th>
+                            <th scope="col">Usuário</th>
+                            <th scope="col">Apagar</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                      {% for object in lista_reg_restituicao %}
+                      {% if object.cancelar_registro == 0 %}
+                        <tr>
+                            <td>{{ object.nr_gru }}</td>
+                            <td>{{ object.vl_restituido|FormataValorINT }}</td>
+                            <td>{{ object.dt_restituicao|date:"d/m/y" }}</td>
+                            <td>{{ object.nr_cpf_cnpj }}</td>
+                            <td>{{ object.ds_razao_social }}</td>
+                            <td>{{ object.data_registro|date:"d/m/y" }}</td>
+                            <td>{{ object.ds_usuario }}</td>
+                            <td>
+                                <form method="post">{% csrf_token %}
+                                    <button type="submit" class="btn btn-bluelgt" name="lista_restituicao" value="{{ object.nr_proposta }}"> Apagar </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr class="text-muted">
+                            <td>{{ object.nr_gru }}</td>
+                            <td>{{ object.vl_restituido|FormataValorINT }}</td>
+                            <td>{{ object.dt_restituicao|date:"d/m/y" }}</td>
+                            <td>{{ object.nr_cpf_cnpj }}</td>
+                            <td>{{ object.ds_razao_social }}</td>
+                            <td>{{ object.data_registro|date:"d/m/y" }}</td>
+                            <td>{{ object.ds_usuario }}</td>
+                            <td>Apagado por:<br>{{ object.registro_cancelamento}}</td>
+                        </tr>
+                        {% endif %}
+                        {% empty %}
+                        <tr>
+                            <td colspan="15">Nenhuma registro encontrado</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </span>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% else %}
+    <div class="row" style="justify-content: space-around;">
+    PARA EDITAR E VISUALIZAR DETALHES DESTA PROPOSTA ELA DEVE ESTAR ATRIBUIDA A VOCE
+</div>
+{% endif %}
+</main>
+{% endblock %}

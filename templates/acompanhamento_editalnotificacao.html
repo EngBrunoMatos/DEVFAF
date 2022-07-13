@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% load custom_tags %}
+{% block main %}
+<main class="container-fluid"><button style="position:fixed;top:10px;left:10px;z-index:9999;" class="btn btn-blue2" onclick="goBack()" title="Voltar"><i class="bi bi-arrow-left"></i> Voltar</button>
+        <div class="container">
+        <div class="row card">
+          <div class="card-header">
+            <h5 class="card-title text-center">Edital de Notificação</h5>
+          </div>
+  <form method="POST" class="post-form row g-3 form_historico">
+                {% csrf_token %}
+              <div class="col-md-6">
+                <label class="form-label">Nº do Edital</label>
+                {{ form.nr_edital }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Data do Edital</label>
+                <br>{{ form.dt_edital }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Data da Publicação</label>
+                {{ form.dt_publicacao }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">CPF/CNPJ</label>
+                {{ form.nr_cpf_cnpj }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Razão Social</label>
+                {{ form.ds_razao_social }}
+              </div>
+              <div align="center">
+                <button type="button" class="col save btn btn-danger" onclick="cancelar()">Cancelar</button>
+                <button type="submit" class="col save btn btn-success ">Salvar</button>
+              </div>
+  </form><br>
+        </div>
+      </div>
+</main>
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends "layout.html" %}{% load custom_tags %}{% block main %}{% if request.user.ds_grupo == "ANA" or request.user.ds_grupo == "GES" %}
+<main class="container-fluid">
+    <div id="grupo_botao">
+        <div class="mt-3 d-flex justify-content-center" style="margin-top: 0!important;">
+            <div class="p-2">
+                <button onclick="limpar()" class="alert alert-primary"><i class="bi bi-trash"></i> Limpar Filtros</button>
+            </div>
+            <div class="p-2">
+                <button href="#pesquisa" type="button" class="alert alert-secondary" data-bs-toggle="collapse">Busca</button>
+            </div>
+            <div class="p-2">
+                <button href="#ordenamento" type="button" class="alert alert-secondary" data-bs-toggle="collapse">Ordenamento de Colunas</button>
+            </div>
+
+        </div>
+            <div id="pesquisa" class="collapse" data-bs-parent="#grupo_botao">
+                <div style="display: flex;justify-content: space-evenly;">
+                    <form method="get">{% csrf_token %}
+                        <input type="text" class="search-box" placeholder="Pesquisa por proposta..." name="Pesquisa_Proposta">
+                        <input type="text" class="search-box" placeholder="Pesquisa por município..." name="Pesquisa_Municipio">
+                        <button class="btn btn-primary" type="submit" data-bs-target="#busca"><i class="bi bi-search"></i> Busca</button>
+                    </form>
+                </div>
+            </div>
+            <div id="ordenamento" class="collapse" data-bs-parent="#grupo_botao">
+                <form method="get">{% csrf_token %}
+                    <div style="display: flex;justify-content: space-evenly;">
+                        <div class="btn-group">
+                            <button class="ordenar alert alert-primary" type="submit" value="ord_prop_D" name="sel_ordem"><i class="bi bi-arrow-up-circle-fill"></i></button>
+                            <div class="alert alert-info">Número da Proposta</div>
+                            <button class="ordenar alert alert-primary" type="submit" value="ord_prop" name="sel_ordem"><i class="bi bi-arrow-down-circle-fill"></i></button>
+                        </div>
+                        <div class="btn-group">
+                            <button class="ordenar alert alert-primary" type="submit" value="ord_ano_D" name="sel_ordem"><i class="bi bi-arrow-up-circle-fill"></i></button>
+                            <div class="alert alert-info">Ano Portaria</div>
+                            <button class="ordenar alert alert-primary" type="submit" value="ord_ano" name="sel_ordem"><i class="bi bi-arrow-down-circle-fill"></i></button>
+                        </div>
+                        <div class="btn-group">
+                            <button class="ordenar alert alert-primary" type="submit" value="ord_vlprop_D" name="sel_ordem"><i class="bi bi-arrow-up-circle-fill"></i></button>
+                            <div class="alert alert-info">Valor da Proposta</div>
+                            <button class="ordenar alert alert-primary" type="submit" value="ord_vlprop" name="sel_ordem"><i class="bi bi-arrow-down-circle-fill"></i></button>
+                        </div>
+                        <div class="btn-group">
+                            <button class="ordenar alert alert-primary" type="submit" value="ord_vltrans_D" name="sel_ordem"><i class="bi bi-arrow-up-circle-fill"></i></button>
+                            <div class="alert alert-info">Valor Transferido</div>
+                            <button class="ordenar alert alert-primary" type="submit" value="ord_vltrans" name="sel_ordem"><i class="bi bi-arrow-down-circle-fill"></i></button>
+                        </div>
+                        <div class="btn-group">
+                            <button class="ordenar alert alert-primary" type="submit" value="ord_risco_D" name="sel_ordem"><i class="bi bi-arrow-up-circle-fill"></i></button>
+                            <div class="alert alert-info">Risco</div>
+                            <button class="ordenar alert alert-primary" type="submit" value="ord_risco" name="sel_ordem"><i class="bi bi-arrow-down-circle-fill"></i></button>
+                        </div>
+                        <div class="btn-group">
+                            <button class="ordenar alert alert-primary" type="submit" value="ord_situacao_D" name="sel_ordem"><i class="bi bi-arrow-up-circle-fill"></i></button>
+                            <div class="alert alert-info">Situação</div>
+                            <button class="ordenar alert alert-primary" type="submit" value="ord_situacao" name="sel_ordem"><i class="bi bi-arrow-down-circle-fill"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <div class="card text-center">
+        <div class="card-header">
+            <div>Tabela de Acompanhamento - <strong>Analista Responsável: {{request.user.first_name}}</strong></div>
+        </div>
+        <div class="card-body">
+        <table class="table table-striped table-hover table-fixed">
+            <thead class="thead-blue">
+                <tr>
+                    <th scope="col">Número da Proposta</th>
+                    <th scope="col">Tipo Objeto</th>
+                    <th scope="col">Ano Portaria</th>
+                    <th scope="col">Valor Proposta</th>
+                    <th scope="col">Valor Transferido</th>
+                    <th scope="col">Município</th>
+                    <th scope="col">UF</th>
+                    <th scope="col">Saldo em Conta</th>
+                    <th scope="col">Risco</th>
+                    <th scope="col">Situaçao</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for qs_analise in object_list %}
+                {% if  qs_analise.FK_User == request.user %}
+                {% if qs_analise.dt_finalizacao %}
+                {% else %}
+                <tr>
+                    <td><a href="{% url 'Detalha_Proposta_Obras' qs_analise.FK_tb_equipo_ressarc.nr_proposta %}">{{ qs_analise.FK_tb_equipo_ressarc.nr_proposta }}</a></td>
+                    <td>{{ qs_analise.FK_tb_equipo_ressarc.FK_tipo_objeto.tipo_objeto }}</td>
+                    <td>{{ qs_analise.FK_tb_equipo_ressarc.ano_portaria_habilitacao }}</td>
+                    <td>{{ qs_analise.FK_tb_equipo_ressarc.valor_proposta|FormataValor }}</td>
+                    <td>{{ qs_analise.FK_tb_equipo_ressarc.valor_transferido|FormataValor }}</td>
+                    <td>{{ qs_analise.FK_tb_equipo_ressarc.FK_municipio.municipio }}</td>
+                    <td>{{ qs_analise.FK_tb_equipo_ressarc.FK_uf.uf }}</td>
+                    <td>{{ qs_analise.FK_tb_equipo_ressarc.saldo_conta.vl_saldo_conta|FormataValorINT }}</td>
+                    <td>{{ qs_analise.FK_tb_equipo_ressarc.risco_calculado }}</td>
+                    <td>{{ qs_analise.FK_tb_equipo_ressarc.situacao }}</td>
+                </tr>
+      {% endif %}{% endif %}{% endfor %}
+            </tbody>
+        </table>
+        {% if is_paginated %}
+        <div class="pagination" style="justify-content: space-evenly;">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="/obras/lista/Analista?page={{ page_obj.previous_page_number }}">anterior</a>
+                {% endif %}
+                <span class="page-current">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="/obras/lista/Analista?page={{ page_obj.next_page_number }}">próxima</a>
+                {% endif %}
+            </span>
+        </div>
+        {% endif %}
+    </div>
+    </div>
+</main>
+{% else %}
+<div>
+    <br>
+    <p>Você não tem permissão de Analista nem Gestor!</p>
+</div>
+{% endif %}{% endblock %}

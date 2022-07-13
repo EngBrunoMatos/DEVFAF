@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% load custom_tags %}
+{% block main %}
+<main class="container-fluid"><button style="position:fixed;top:10px;left:10px;z-index:9999;" class="btn btn-blue2" onclick="goBack()" title="Voltar"><i class="bi bi-arrow-left"></i> Voltar</button>
+        <div class="container">
+        <div class="row card">
+          <div class="card-header">
+            <h5 class="card-title text-center">Ficha de Acompanhamento</h5>
+          </div>
+        <form method="POST" class="post-form row g-3 form_historico">
+                {% csrf_token %}
+              <div class="col-md-6">
+                <label class="form-label">Possui Portaria de Cancelamento?</label>
+
+                  {% if object_check == "EQUIPAMENTO" %}
+
+                  <div class="valor_input_fixo">Não se Aplica</div>
+
+                  {% else %}
+
+                  <br>{{ form.prt_cancelamento }}
+
+
+                  {% endif %}
+
+
+
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Situação da Análise</label>
+                <br>{{ form.status_situacao }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Tipo de Irregularidade</label>
+                <br>{{ form.tipo_irregularidade }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Situação Após Análise</label>
+                <br>{{ form.status_instrucao }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Proposta Auditada?</label>
+                <br>{{ form.analise_auditada }}
+              </div>
+            <div class="col-md-6">
+                <label class="form-label">Entidade Auditora</label>
+                {{ form.entidade_autora }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">NUP Auditoria</label>
+                {{ form.nup_rel_auditoria }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Motivo do Ressarcimento</label>
+                {{ form.motivo_analise }}
+              </div>
+              <div align="center">
+                <button type="button" class="col save btn btn-danger" onclick="cancelar()">Cancelar</button>
+                <button type="submit" class="col save btn btn-success ">Salvar</button>
+              </div>
+  </form><br>
+        </div>
+      </div>
+</main>
+{% endblock %}

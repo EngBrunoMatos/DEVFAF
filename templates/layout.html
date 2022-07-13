@@ -1,0 +1,87 @@
+{% load static %}
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="widht=device-width, inicial-scale=1.0"/>
+        <title>Devolução de Recursos</title>
+        <link rel="icon" href="{% static 'media/imagens/labs_i.png' %}">
+        <link rel="stylesheet" href="{% static '/css/estilo.css' %}"/>
+        <!-- Ícones -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+        <title>EQUIPAMENTOS</title>
+        <style>
+            body{width:100%;position:fixed;height:100%;background-image: url(/static/media/imagens/Backgrond_eFNS.png);background-size: cover;}
+            footer{width:100%;position:fixed;bottom:0; background:#f1f1f1;}
+            main{position:relative;width:100%;height:89%;overflow-x: auto;z-index:-1}
+            .espacoHEADER{height:7%}
+            .fixed-top {height:6%;}
+            .espacoFOOTER{height:7%}
+            footer{height:5%}
+        </style>
+    </head>
+    <body>
+         <div class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+            <div class="container ">
+                <button class="btn btn-info" onclick="goBack()" title="Voltar" style="margin-right: 35px;">Voltar</button>
+                <a class="navbar-brand fw-bold text-uppercase me-auto" href="#" style="justify-content: flex-end;">Devolução Fundo a Fundo</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavbar" style="justify-content: flex-end;">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><i class="bi bi-house-door-fill"></i> Início</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'Lista_Geral_Analista_Equipamentos' %}"><i class="bi bi-gear-wide-connected"></i> Equipamentos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'Lista_Geral_Analista_Obras' %}"><i class="bi bi-building"></i> Obras</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" style="opacity:.3;"><i class="bi bi-graph-up"></i> Relatórios</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-file-person-fill"></i> {% if request.user.is_authenticated %}{{ request.user.first_name }}{% else %}---{% endif %}
+                  </a>
+                    {% if request.user.is_authenticated %}
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    {% if request.user.ds_grupo == "GES" %}
+                      <li style="background-color:#76ddf7;"><a class="dropdown-item" href="#">Perfil Gestor</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Lista_Geral_Equipamentos' %}">Equipamentos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Lista_Geral_Obras' %}">Obras</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                    {% else %}
+                        <li><a class="dropdown-item" href="#"  onclick="alert('Você não possui perfil de Gestor!');">Perfil Gestor</a></li>
+                    {% endif %}
+                    <li style="background-color:#76ddf7;"><a class="dropdown-item" href="#">Perfil Analista</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Lista_Geral_Analista_Equipamentos' %}">Equipamentos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Lista_Geral_Analista_Obras' %}">Obras</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'altera_senha' %}">Alterar Senha</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-door-open-fill"></i>Sair</a></li>
+                  </ul>
+                    {% endif %}
+                </li>
+              </ul></div>
+            </div>
+         </div>
+         <div class="espacoHEADER"></div>
+              {% block main %}
+              {% endblock %}
+         <div class="espacoFOOTER"></div>
+         <footer>
+         <div class="text-center text-muted">
+             © 2022 -
+             <img style="height:40px" src="{% static 'media/imagens/labs1.png' %}"> l@bs |
+             <img style="height:40px" src="{% static 'media/imagens/labs.png' %}">Fundo Nacional de Saúde - FNS
+         </div>
+         </footer>
+    </body>
+    <script src="{% static 'js/script.js' %}"></script>
+</html>

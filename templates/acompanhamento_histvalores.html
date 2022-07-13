@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% load custom_tags %}
+{% block main %}
+<main class="container-fluid" xmlns="http://www.w3.org/1999/html"><button style="position:fixed;top:10px;left:10px;z-index:9999;" class="btn btn-blue2" onclick="goBack()" title="Voltar"><i class="bi bi-arrow-left"></i> Voltar</button>
+        <div class="container">
+        <div class="row card">
+          <div class="card-header">
+            <h5 class="card-title text-center">Valores</h5>
+          </div>
+  <form method="POST" class="post-form row g-3 form_historico">
+                {% csrf_token %}
+              <div class="col-md-6">
+                <label class="form-label">Valor da Proposta</label>
+                <div class="valor_input_fixo">{{tabela_equipo_ressarc_PK.valor_proposta|FormataValor}}</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Valor Transferido</label>
+                  <div class="valor_input_fixo">{{tabela_equipo_ressarc_PK.valor_transferido|FormataValor}}</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Valor não Transferido: </label>
+                  <div class="valor_input_fixo">{{tabela_equipo_ressarc_PK.valor_nao_transferido|FormataValor}}</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Valor Original do Débito</label>
+                {{ form.vl_original }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Valor Correção do Débito</label>
+                {{ form.vl_correcao }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Data de Apuração do Débito</label>
+                {{ form.dt_apuracao }}
+              </div>
+              <div align="center">
+                <button type="button" class="col save btn btn-danger" onclick="cancelar()">Cancelar</button>
+                <button type="submit" class="col save btn btn-success ">Salvar</button>
+              </div>
+  </form><br>
+        </div>
+      </div>
+</main>
+{% endblock %}

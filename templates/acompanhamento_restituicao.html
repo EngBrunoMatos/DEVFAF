@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% load custom_tags %}
+{% block main %}
+<main class="container-fluid"><button style="position:fixed;top:10px;left:10px;z-index:9999;" class="btn btn-blue2" onclick="goBack()" title="Voltar"><i class="bi bi-arrow-left"></i> Voltar</button>
+        <div class="container">
+        <div class="row card">
+          <div class="card-header">
+            <h5 class="card-title text-center">Restituição</h5>
+          </div>
+  <form method="POST" class="post-form row g-3 form_historico">
+                {% csrf_token %}
+              <div class="col-md-6">
+                <label class="form-label">Nº GRU</label>
+                {{ form.nr_gru }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Valor Restituído</label>
+                {{ form.vl_restituido }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Data da Restituição</label>
+                {{ form.dt_restituicao }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">CPF/CNPJ</label>
+                {{ form.nr_cpf_cnpj }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Razão Social</label>
+                {{ form.ds_razao_social }}
+              </div>
+              <div align="center">
+                <button type="button" class="col save btn btn-danger" onclick="cancelar()">Cancelar</button>
+                <button type="submit" class="col save btn btn-success ">Salvar</button>
+              </div>
+  </form><br>
+        </div>
+      </div>
+</main>
+{% endblock %}
