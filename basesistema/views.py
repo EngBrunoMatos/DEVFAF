@@ -311,9 +311,8 @@ class Detalha_Proposta_Equipamentos(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         total_restituido = val1 = val2 = 0
-        if tb_reg_valores.objects.all():
+        if tb_reg_valores.objects.filter(cancelar_registro=0):
             val1 = tb_reg_valores.objects.filter(cancelar_registro=0).last().vl_original
-        if tb_reg_valores.objects.all():
             val2 = tb_reg_valores.objects.filter(cancelar_registro=0).last().vl_correcao
         if tb_reg_restituicao.objects.all():
             for objeto in tb_reg_restituicao.objects.all():
@@ -333,8 +332,8 @@ class Detalha_Proposta_Equipamentos(LoginRequiredMixin, DetailView):
             'last_lista_restituicao': tb_reg_restituicao.objects.filter(cancelar_registro=0).last(),
             'last_lista_fatos_geradores': tb_reg_fatos_geradores.objects.filter(cancelar_registro=0).last(),
             'total_debito': val1 + val2,
-            'total_restituido':total_restituido,
-            'total_A_restituir':val1 + val2 - total_restituido,
+            'total_restituido': total_restituido,
+            'total_A_restituir': val1 + val2 - total_restituido,
             'qs_analise': tb_analise.objects.filter(FK_tb_equipo_ressarc=tb_equipo_ressarc.objects.filter(nr_proposta=self.kwargs['pk']).last().nr_proposta).last(),
         })
         return context
@@ -348,7 +347,6 @@ class Detalha_Proposta_Equipamentos(LoginRequiredMixin, DetailView):
             Value_edital = self.request.POST.get('lista_edital')
             tb_reg_acompanhamento.objects.filter(pk=Value_acompanhamento).update(registro_cancelamento=str(request.user)+str(datetime.now().strftime('\n%d/%m/%Y %H:%M')))
             tb_reg_acompanhamento.objects.filter(pk=Value_acompanhamento).update(cancelar_registro='1')
-
             tb_reg_fatos_geradores.objects.filter(pk=Value_fatos).update(registro_cancelamento=str(request.user)+str(datetime.now().strftime('\n%d/%m/%Y %H:%M')))
             tb_reg_fatos_geradores.objects.filter(pk=Value_fatos).update(cancelar_registro='1')
             tb_reg_valores.objects.filter(pk=Value_valores).update(registro_cancelamento=str(request.user)+str(datetime.now().strftime('\n%d/%m/%Y %H:%M')))

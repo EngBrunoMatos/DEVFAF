@@ -226,7 +226,7 @@
                             <td>{{ object.ds_usuario }}</td>
                             <td>
                                 <form method="post">{% csrf_token %}
-                                    <button type="submit" class="btn btn-bluelgt" name="lista_valores" value="{{ object.nr_proposta }}"> Apagar </button>
+                                    <button type="submit" class="btn btn-bluelgt" name="lista_valores" value="{{ object.id }}"> Apagar </button>
                                 </form>
                             </td>
                         </tr>
@@ -290,7 +290,7 @@
                             <td>{{ object.ds_usuario }}</td>
                             <td>
                                 <form method="post">{% csrf_token %}
-                                    <button type="submit" class="btn btn-bluelgt" name="lista_fatos" value="{{ object.nr_proposta }}"> Apagar </button>
+                                    <button type="submit" class="btn btn-bluelgt" name="lista_fatos" value="{{ object.id }}"> Apagar </button>
                                 </form>
                             </td>
                         </tr>
@@ -353,7 +353,7 @@
                             <td>{{ object.ds_usuario }}</td>
                             <td>
                                 <form method="post">{% csrf_token %}
-                                    <button type="submit" class="btn btn-bluelgt" name="lista_edital" value="{{ object.nr_proposta }}"> Apagar </button>
+                                    <button type="submit" class="btn btn-bluelgt" name="lista_edital" value="{{ object.id }}"> Apagar </button>
                                 </form>
                             </td>
                         </tr>
@@ -418,7 +418,7 @@
                             <td>{{ object.ds_usuario }}</td>
                             <td>
                                 <form method="post">{% csrf_token %}
-                                    <button type="submit" class="btn btn-bluelgt" name="lista_notificacao" value="{{ object.nr_proposta }}"> Apagar </button>
+                                    <button type="submit" class="btn btn-bluelgt" name="lista_notificacao" value="{{ object.id }}"> Apagar </button>
                                 </form>
                             </td>
                         </tr>
@@ -481,7 +481,7 @@
                             <td>{{ object.ds_usuario }}</td>
                             <td>
                                 <form method="post">{% csrf_token %}
-                                    <button type="submit" class="btn btn-bluelgt" name="lista_restituicao" value="{{ object.nr_proposta }}"> Apagar </button>
+                                    <button type="submit" class="btn btn-bluelgt" name="lista_restituicao" value="{{ object.id }}"> Apagar </button>
                                 </form>
                             </td>
                         </tr>
